@@ -9,6 +9,50 @@ if (!supabaseUrl || !supabaseKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
+export interface Category {
+  id: string;
+  name: string;
+  section: 'men' | 'women';
+  banner_image: string | null;
+  created_at: string;
+}
+
+export interface ClothingItem {
+  id: string;
+  category_id: string;
+  name: string;
+  description: string | null;
+  thumbnail_image: string | null;
+  created_at: string;
+}
+
+export interface ClothingImage {
+  id: string;
+  clothing_item_id: string;
+  image_url: string;
+  display_order: number;
+  created_at: string;
+}
+
+// Helper function to get public URL for images
+export function getImageUrl(imagePath: string | null): string | null {
+  if (!imagePath) return null;
+  
+  // If it's already a full URL, return it as is
+  if (imagePath.startsWith('http')) {
+    return imagePath;
+  }
+  
+  // Otherwise, construct the public URL
+  try {
+    const { data } = supabase.storage.from('portfolio-images').getPublicUrl(imagePath);
+    return data.publicUrl;
+  } catch (error) {
+    console.error('Error getting image URL:', error);
+    return null;
+  }
+}
+
 export type Database = {
   public: {
     Tables: {

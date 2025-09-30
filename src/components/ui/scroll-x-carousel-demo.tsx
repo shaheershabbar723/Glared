@@ -15,7 +15,7 @@ const SLIDES = [
       'Premium tailored suits and formal wear crafted with the finest Italian fabrics and meticulous attention to detail.',
     services: ['tailoring', 'luxury', 'formal wear'],
     type: 'Menswear',
-    imageUrl: '/media/Generated Image September 20, 2025 - 1_03AM.png',
+    imageUrl: '/Generated Image September 20, 2025 - 1_03AM.png',
   },
   {
     id: 'slide-2',
@@ -24,7 +24,7 @@ const SLIDES = [
       'Sophisticated dresses and evening wear designed to make a statement at any formal occasion.',
     services: ['design', 'evening wear', 'luxury'],
     type: 'Womenswear',
-    imageUrl: '/media/Generated Image September 20, 2025 - 1_22AM.png',
+    imageUrl: '/Generated Image September 20, 2025 - 1_22AM.png',
   },
   {
     id: 'slide-3',
@@ -33,7 +33,7 @@ const SLIDES = [
       'Contemporary urban fashion that blends comfort with style for the modern lifestyle.',
     services: ['streetwear', 'casual', 'urban'],
     type: 'Streetwear',
-    imageUrl: '/media/Generated Image September 22, 2025 - 2_21AM (1).png',
+    imageUrl: '/Generated Image September 22, 2025 - 2_21AM (1).png',
   },
   {
     id: 'slide-4',
@@ -42,7 +42,7 @@ const SLIDES = [
       'Lightweight fabrics and vibrant patterns perfect for beach vacations and summer events.',
     services: ['resort wear', 'summer', 'vacation'],
     type: 'Resort',
-    imageUrl: '/media/Generated Image September 25, 2025 - 5_24AM.png',
+    imageUrl: '/Generated Image September 25, 2025 - 5_24AM.png',
   },
   {
     id: 'slide-5',
@@ -51,7 +51,7 @@ const SLIDES = [
       'Premium coats and jackets designed for both style and protection during cold seasons.',
     services: ['outerwear', 'winter', 'luxury'],
     type: 'Outerwear',
-    imageUrl: '/media/download (3).png',
+    imageUrl: '/download (3).png',
   },
 ];
 

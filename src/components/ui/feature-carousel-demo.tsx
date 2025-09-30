@@ -4,27 +4,27 @@ import { HeroSection } from './feature-carousel';
 const FeatureCarouselDemo: React.FC = () => {
   const images = [
     {
-      src: '/media/feature-carousal/Generated Image September 22, 2025 - 12_14AM.png',
+      src: '/feature-carousal/Generated Image September 22, 2025 - 12_14AM.png',
       alt: 'Professional fashion portrait',
     },
     {
-      src: '/media/feature-carousal/Generated Image September 22, 2025 - 12_22AM.png',
+      src: '/feature-carousal/Generated Image September 22, 2025 - 12_22AM.png',
       alt: 'Elegant evening wear',
     },
     {
-      src: '/media/feature-carousal/Generated Image September 22, 2025 - 12_40AM.png',
+      src: '/feature-carousal/Generated Image September 22, 2025 - 12_40AM.png',
       alt: 'Casual streetwear',
     },
     {
-      src: '/media/feature-carousal/Generated Image September 22, 2025 - 12_56AM.png',
+      src: '/feature-carousal/Generated Image September 22, 2025 - 12_56AM.png',
       alt: 'Summer resort collection',
     },
     {
-      src: '/media/feature-carousal/Generated Image September 22, 2025 - 1_00AM.png',
+      src: '/feature-carousal/Generated Image September 22, 2025 - 1_00AM.png',
       alt: 'Winter outerwear',
     },
     {
-      src: '/media/feature-carousal/Generated Image September 25, 2025 - 5_45AM.png',
+      src: '/feature-carousal/Generated Image September 25, 2025 - 5_45AM.png',
       alt: 'Luxury fashion accessories',
     },
   ];
