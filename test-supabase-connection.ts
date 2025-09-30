@@ -14,22 +14,20 @@ async function testConnection() {
       console.log('Categories table access error:', categoriesError);
     } else {
       console.log('Categories table access: SUCCESS');
+      console.log('Categories count:', categories);
     }
     
-    // Test 2: Check if profiles table exists
-    const { data: profiles, error: profilesError } = await supabase
-      .from('profiles')
+    // Test 2: Check if clothing_items table exists
+    const { data: items, error: itemsError } = await supabase
+      .from('clothing_items')
       .select('count(*)');
     
-    if (profilesError) {
-      console.log('Profiles table access error (may not exist yet):', profilesError);
+    if (itemsError) {
+      console.log('Clothing items table access error:', itemsError);
     } else {
-      console.log('Profiles table access: SUCCESS');
+      console.log('Clothing items table access: SUCCESS');
+      console.log('Clothing items count:', items);
     }
-    
-    // Test 3: Check auth status
-    const { data: { session } } = await supabase.auth.getSession();
-    console.log('Auth session status:', session ? 'ACTIVE' : 'NONE');
     
     console.log('Connection test completed.');
   } catch (error) {

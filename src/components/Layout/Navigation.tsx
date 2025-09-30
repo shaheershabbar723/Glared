@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Menu, X, User } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -14,17 +13,6 @@ const navLinks = [
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const { user, signOut } = useAuth();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      navigate('/');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-100">
@@ -52,40 +40,6 @@ export function Navigation() {
                 {link.name}
               </Link>
             ))}
-            
-            {/* Auth Links */}
-            {user ? (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/profile"
-                  className="flex items-center text-sm font-medium text-gray-900 hover:text-yellow-600"
-                >
-                  <User size={18} className="mr-1" />
-                  Profile
-                </Link>
-                <button
-                  onClick={handleSignOut}
-                  className="text-sm font-medium text-gray-900 hover:text-yellow-600"
-                >
-                  Sign Out
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/auth/signin"
-                  className="text-sm font-medium text-gray-900 hover:text-yellow-600"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  to="/auth/signup"
-                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Sign Up
-                </Link>
-              </div>
-            )}
           </div>
 
           {/* Mobile menu button */}
@@ -117,45 +71,6 @@ export function Navigation() {
                   {link.name}
                 </Link>
               ))}
-              
-              {/* Mobile Auth Links */}
-              {user ? (
-                <>
-                  <Link
-                    to="/profile"
-                    onClick={() => setIsOpen(false)}
-                    className="px-3 py-2 text-base font-medium text-gray-900 hover:text-yellow-600 hover:bg-gray-50"
-                  >
-                    Profile
-                  </Link>
-                  <button
-                    onClick={() => {
-                      handleSignOut();
-                      setIsOpen(false);
-                    }}
-                    className="px-3 py-2 text-base font-medium text-left text-gray-900 hover:text-yellow-600 hover:bg-gray-50"
-                  >
-                    Sign Out
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to="/auth/signin"
-                    onClick={() => setIsOpen(false)}
-                    className="px-3 py-2 text-base font-medium text-gray-900 hover:text-yellow-600 hover:bg-gray-50"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    to="/auth/signup"
-                    onClick={() => setIsOpen(false)}
-                    className="px-3 py-2 text-base font-medium bg-yellow-500 hover:bg-yellow-600 text-white rounded-md"
-                  >
-                    Sign Up
-                  </Link>
-                </>
-              )}
             </div>
           </div>
         )}

@@ -1,4 +1,19 @@
 // Admin setup script for Glared Portfolio Platform
+// This script provides information about accessing the admin panel
+
+console.log('=====================================');
+console.log('GLARED Admin Panel Access');
+console.log('=====================================');
+console.log('');
+console.log('The admin panel is now accessible directly at /admin without authentication.');
+console.log('');
+console.log('To access the admin panel:');
+console.log('1. Navigate to http://localhost:5173/admin (in development)');
+console.log('2. Navigate to /admin on your deployed site (in production)');
+console.log('');
+console.log('No login credentials are required.');
+console.log('');
+console.log('=====================================');
 // This script creates an admin user in Supabase
 
 import 'dotenv/config';

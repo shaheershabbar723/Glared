@@ -20,10 +20,6 @@ export default defineConfig({
     },
   },
   server: {
-    mimeTypes: {
-      '.js': 'application/javascript',
-      '.mjs': 'application/javascript',
-      '.jsx': 'application/javascript',
-    },
+    // Removed invalid mimeTypes property that caused TS error
   },
 });

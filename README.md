@@ -5,15 +5,14 @@ A modern web application for AI-generated fashion photography services built wit
 ## Features
 
 - **Portfolio Management**: Dynamic categories and clothing items with image galleries
-- **Admin Dashboard**: Full CRUD operations for managing portfolio content
-- **User Authentication**: Complete sign up, sign in, and profile management
+- **Admin Dashboard**: Full CRUD operations for managing portfolio content (no authentication required)
 - **Stripe Integration**: Payment processing for photography packages
 - **Responsive Design**: Mobile-first approach with modern UI/UX
 
 ## Tech Stack
 
 - **Frontend**: React 18, TypeScript, Tailwind CSS
-- **Backend**: Supabase (Database, Auth, Storage)
+- **Backend**: Supabase (Database, Storage)
 - **Payments**: Stripe
 - **Build Tool**: Vite
 - **Icons**: Lucide React
@@ -54,7 +53,6 @@ VITE_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
 4. Set up Supabase:
    - Create a new Supabase project
    - Run the database migrations (they should auto-apply)
-   - Set up authentication if needed
 
 5. Set up Stripe:
    - Create a Stripe account
@@ -75,10 +73,8 @@ src/
 │   ├── Layout/         # Navigation, Footer
 │   ├── Portfolio/      # Portfolio display components
 │   └── ui/             # Basic UI components
-├── contexts/           # React contexts (Auth)
 ├── lib/               # Utilities and configurations
 ├── pages/             # Page components
-│   ├── auth/          # Authentication pages
 │   └── admin/         # Admin pages
 └── styles/            # Global styles
 
@@ -95,15 +91,8 @@ supabase/
 - Image hover effects and carousels
 - Responsive grid layouts
 
-### User Authentication
-- Email/password sign up and sign in
-- User profile management
-- Password reset functionality
-- Protected routes for authenticated users
-- Responsive authentication forms
-
 ### Admin Dashboard
-- Secure authentication
+- Direct access to admin panel at `/admin` (no authentication required)
 - Category management (CRUD operations)
 - Clothing item management with image uploads
 - File upload to Supabase Storage
@@ -134,24 +123,17 @@ The application uses the following main tables:
 - `categories` - Portfolio categories (men/women sections)
 - `clothing_items` - Individual clothing pieces
 - `clothing_images` - Multiple images per clothing item
-- `profiles` - User profile information
 - `stripe_customers` - Stripe customer mappings
 - `stripe_subscriptions` - Subscription tracking
 - `stripe_orders` - Order history
 
-## Authentication System
+## Admin Access
 
-The authentication system includes:
-- Sign up with email and password
-- Sign in with email and password
-- User profile management
-- Password reset functionality
-- Protected routes for authenticated users only
+The admin dashboard is accessible directly at `/admin` without any authentication requirements. This simplifies content management for single-user scenarios.
 
-To set up authentication:
-1. Run the auth migration: `supabase/migrations/20250928100000_auth_tables.sql`
-2. Configure Supabase Auth settings in your dashboard
-3. Set up email templates for password reset emails
+To access the admin panel:
+1. Navigate to http://localhost:5173/admin (in development)
+2. Navigate to /admin on your deployed site (in production)
 
 ## Deployment
 
