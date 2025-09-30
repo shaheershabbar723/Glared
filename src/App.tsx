@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Navigation } from './components/Layout/Navigation';
 import { Footer } from './components/Layout/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
