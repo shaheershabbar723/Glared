@@ -3,6 +3,10 @@
   publish = "dist"
   functions = "netlify/functions"
 
+[template.environment]
+  VITE_SUPABASE_URL = "Your Supabase URL"
+  VITE_SUPABASE_ANON_KEY = "Your Supabase Anon Key"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
