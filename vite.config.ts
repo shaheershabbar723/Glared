@@ -7,7 +7,7 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-  base: './',
+  base: '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -20,10 +20,6 @@ export default defineConfig({
     },
   },
   server: {
-    mimeTypes: {
-      '.js': 'application/javascript',
-      '.mjs': 'application/javascript',
-      '.jsx': 'application/javascript',
-    },
+    // Removed invalid mimeTypes property
   },
 });
