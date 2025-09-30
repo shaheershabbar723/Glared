@@ -1,0 +1,242 @@
+# GLARED - AI Fashion Photography Platform - Complete Context
+
+## Overview
+GLARED is a modern web application for AI-generated fashion photography services. The platform allows fashion brands and retailers to generate professional-quality product images using AI technology, eliminating the need for traditional photoshoots. The website features portfolio management, user authentication, pricing packages, and contact functionality.
+
+## Technology Stack
+- **Frontend**: React 18, TypeScript, Tailwind CSS
+- **Backend**: Supabase (Database, Auth, Storage)
+- **Payments**: Stripe integration
+- **Build Tool**: Vite
+- **Icons**: Lucide React
+
+## Project Structure
+```
+src/
+├── components/          # Reusable UI components
+│   ├── admin/          # Admin dashboard components
+│   ├── Layout/         # Navigation, Footer
+│   ├── Portfolio/      # Portfolio display components
+│   └── ui/             # Basic UI components (Button, Input, etc.)
+├── contexts/           # React contexts (AuthContext)
+├── lib/               # Utilities and configurations (Supabase, Stripe)
+├── pages/             # Page components
+│   ├── auth/          # Authentication pages (SignIn, SignUp, Profile)
+│   ├── admin/         # Admin pages (Dashboard)
+│   └── ...            # Main pages (Home, Portfolio, About, Pricing, Contact)
+└── styles/            # Global styles
+
+supabase/
+├── migrations/        # Database schema migrations
+└── functions/         # Supabase Edge functions
+```
+
+## Key Features
+
+### 1. Portfolio Management
+- Dynamic categories (Men's/Women's collections)
+- Clothing items with multiple images
+- Image hover effects and carousels
+- Responsive grid layouts
+- Category-based filtering
+
+### 2. User Authentication
+- Email/password sign up and sign in
+- User profile management
+- Password reset functionality
+- Protected routes for authenticated users
+- Responsive authentication forms
+
+### 3. Admin Dashboard
+- Secure authentication
+- Category management (CRUD operations)
+- Clothing item management with image uploads
+- File upload to Supabase Storage
+
+### 4. Stripe Integration
+- Multiple pricing tiers (subscription and one-time packages)
+- Secure payment processing
+- Demo mode for development
+- Edge functions for webhook handling
+
+### 5. Responsive Design
+- Mobile-first approach
+- Modern UI with Tailwind CSS
+- Smooth animations and transitions
+- Professional color scheme (black, white, yellow accents)
+
+## Pages
+
+### Home Page (/)
+- Hero section with call-to-action buttons
+- Before/after image comparison slider
+- Challenge and solution sections
+- Process methodology
+- Metrics and testimonials
+- Call-to-action section
+
+### Portfolio Page (/portfolio)
+- Men's and Women's collection toggle
+- Category-based product display
+- Loading states and empty states
+- Responsive grid layout
+
+### About Page (/about)
+- Company story and history
+- Core values display
+- Team member profiles
+- Visual design with background images
+
+### Pricing Page (/pricing)
+- Free Starter Pack section
+- Subscription plans (Essential, Signature, Couture)
+- One-time picture packages (5, 10, 20 Pictures)
+- Custom package option
+- WhatsApp contact flow for all packages
+
+### Contact Page (/contact)
+- Contact form with validation
+- Contact information display
+- Business hours and location
+- WhatsApp numbers for US and Pakistan offices
+
+### Authentication Pages (/auth/*)
+- Sign In page
+- Sign Up page
+- Profile management
+- Password reset functionality
+- Update password page
+
+### Admin Dashboard (/admin)
+- Secure admin access
+- Content management interface
+- CRUD operations for categories and items
+
+## Database Schema
+
+### Main Tables
+- `categories` - Portfolio categories (men/women sections)
+- `clothing_items` - Individual clothing pieces
+- `clothing_images` - Multiple images per clothing item
+- `profiles` - User profile information
+- `stripe_customers` - Stripe customer mappings
+- `stripe_subscriptions` - Subscription tracking
+- `stripe_orders` - Order history
+
+### Authentication Tables
+- `auth.users` - Supabase authentication users
+- `profiles` - Extended user information with automatic creation triggers
+
+### Storage
+- `portfolio-images` bucket for storing clothing item images
+- Public read access for portfolio images
+- Authenticated write access for admin uploads
+
+## Authentication System
+
+### Features
+- Complete sign up, sign in, and profile management
+- Email/password authentication
+- Password reset flow
+- Protected routes
+- Session management
+- Profile auto-creation on signup
+
+### Implementation
+- Uses Supabase Auth with email/password
+- Custom profiles table linked to auth.users
+- Row Level Security (RLS) policies
+- Automatic profile creation trigger
+- Session persistence
+
+## Payment System
+
+### Packages
+1. **Subscription Plans**:
+   - Essential: $30/month - Basic AI photography
+   - Signature: $100/month - Professional photography with advanced styling
+   - Couture: $300/month - Premium photography with dedicated support
+
+2. **One-Time Packages**:
+   - 5 Pictures: $10.00 - Entry package for single product
+   - 10 Pictures: $20.00 - Small product lines
+   - 20 Pictures: $40.00 - Full collections
+
+3. **Custom Package**:
+   - Flexible pricing based on requirements
+   - Tailored to specific needs
+
+### Implementation
+- Stripe integration for payment processing
+- Supabase Edge functions for backend processing
+- Webhook handling for payment events
+- Database updates for subscription/orders
+- Demo mode for development/testing
+
+## UI Components
+
+### Layout
+- Responsive navigation with mobile menu
+- Footer with contact information
+- Scroll-to-top functionality on route changes
+
+### Custom Components
+- Button (primary, secondary, outline, ghost variants)
+- Input fields with labels
+- Select dropdowns
+- Image carousels
+- Before/after sliders
+- Category cards
+
+## Environment Variables
+- `VITE_SUPABASE_URL` - Supabase project URL
+- `VITE_SUPABASE_ANON_KEY` - Supabase anonymous key
+- `VITE_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key
+
+## Development Workflow
+
+### Getting Started
+1. Clone repository
+2. Install dependencies with `npm install`
+3. Set up environment variables
+4. Run database migrations
+5. Start development server with `npm run dev`
+
+### Adding New Features
+1. Create components in appropriate directories
+2. Add routes in App.tsx
+3. Update navigation if needed
+4. Add database migrations if required
+
+### Styling Guidelines
+- Use Tailwind CSS classes
+- Follow existing color scheme
+- Maintain responsive design principles
+- Use consistent spacing and typography
+
+## Deployment
+- Build with `npm run build`
+- Deploy to hosting platform (Vercel, Netlify, etc.)
+- Configure environment variables
+- Set up Stripe webhooks for production
+
+## Contact Information
+- US Office: +1 (216) 244-92625
+- Pakistan Office: +92 320 8399055
+- Location: 3648 Rocky River Dr, Cleveland, OH - 44111
+- Email: info@glared.com
+
+## WhatsApp Integration
+All pricing packages use WhatsApp as the primary contact method:
+- Users click "Get Started" on any package
+- Modal displays with package-specific message format
+- Shows both US and PK WhatsApp numbers
+- "Got it" button closes modal
+- Users manually contact via WhatsApp with pre-formatted message
+
+## Custom Features
+- Scroll-to-top on page navigation
+- Responsive image sliders with drag support
+- Animated counters and transitions
+- Intersection Observer for scroll animations
+- Form validation and error handling
