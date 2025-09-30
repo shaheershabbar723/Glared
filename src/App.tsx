@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Navigation } from './components/Layout/Navigation';
 import { Footer } from './components/Layout/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -67,28 +67,25 @@ function App() {
             } />
             
             {/* Public Routes */}
-            <Route
-              path="/*"
-              element={
-                <>
-                  <Navigation />
-                  <main>
-                    <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/portfolio" element={<Portfolio />} />
-                      <Route path="/category/:categoryId" element={<CategoryPage />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/pricing" element={<Pricing />} />
-                      <Route path="/contact" element={<Contact />} />
-                      <Route path="/success" element={<Success />} />
-                      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                      <Route path="/image-gallery-test" element={<ImageGalleryTest />} />
-                    </Routes>
-                  </main>
-                  <Footer />
-                </>
-              }
-            />
+            <Route path="/" element={
+              <>
+                <Navigation />
+                <main>
+                  <Routes>
+                    <Route index element={<Home />} />
+                    <Route path="/portfolio" element={<Portfolio />} />
+                    <Route path="/category/:categoryId" element={<CategoryPage />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/pricing" element={<Pricing />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/success" element={<Success />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/image-gallery-test" element={<ImageGalleryTest />} />
+                  </Routes>
+                </main>
+                <Footer />
+              </>
+            } />
           </Routes>
         </div>
       </Router>
