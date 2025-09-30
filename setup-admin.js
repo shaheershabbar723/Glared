@@ -38,7 +38,7 @@ async function createAdminUser() {
     console.log('✅ Admin user created successfully!');
     console.log('Email:', data.user.email);
     console.log('User ID:', data.user.id);
-    console.log('\nYou can now sign in to the admin panel at /admin with these credentials:');
+    console.log('\nYou can now access the admin panel at /admin with these credentials:');
     console.log('Email: shaheer.shabbar@gmail.com');
     console.log('Password: fryingpan723');
     

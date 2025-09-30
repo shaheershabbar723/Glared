@@ -49,7 +49,7 @@ export function Footer() {
               <div className="flex items-center space-x-2">
                 <Phone size={16} className="text-yellow-500" />
                 <div className="text-gray-300 text-sm">
-                  <div>+1 (216) 244-92625 (US Office)</div>
+                  <div>+1 (216) 244-9262 (US Office)</div>
                   <div>+92 320 8399055 (Pak Office)</div>
                 </div>
               </div>

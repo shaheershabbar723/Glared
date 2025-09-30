@@ -207,7 +207,7 @@ export function PrivacyPolicy() {
                 <div className="flex items-start space-x-2">
                   <Phone className="text-gray-700 mt-1 flex-shrink-0" size={18} />
                   <div className="text-gray-700">
-                    <div>US Office: +1 (216) 244-92625</div>
+                    <div>US Office: +1 (216) 244-9262</div>
                     <div>Pakistan Office: +92 320 8399055</div>
                   </div>
                 </div>

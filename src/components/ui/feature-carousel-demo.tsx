@@ -13,7 +13,7 @@ const FeatureCarouselDemo: React.FC = () => {
     },
     {
       src: '/media/feature-carousal/Generated Image September 22, 2025 - 12_40AM.png',
-      alt: 'Casual streetwear',
+      alt: 'Casual athleisure',
     },
     {
       src: '/media/feature-carousal/Generated Image September 22, 2025 - 12_56AM.png',
@@ -31,7 +31,7 @@ const FeatureCarouselDemo: React.FC = () => {
 
   const title = (
     <>
-      Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-600">AI Fashion</span> Photography
+      Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-600">Featured</span> Collection
     </>
   );
 

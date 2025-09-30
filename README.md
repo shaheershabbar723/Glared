@@ -6,15 +6,12 @@ A modern web application for AI-generated fashion photography services built wit
 
 - **Portfolio Management**: Dynamic categories and clothing items with image galleries
 - **Admin Dashboard**: Full CRUD operations for managing portfolio content
-- **User Authentication**: Complete sign up, sign in, and profile management
-- **Stripe Integration**: Payment processing for photography packages
 - **Responsive Design**: Mobile-first approach with modern UI/UX
 
 ## Tech Stack
 
 - **Frontend**: React 18, TypeScript, Tailwind CSS
-- **Backend**: Supabase (Database, Auth, Storage)
-- **Payments**: Stripe
+- **Backend**: Supabase (Database, Storage)
 - **Build Tool**: Vite
 - **Icons**: Lucide React
 
@@ -24,7 +21,6 @@ A modern web application for AI-generated fashion photography services built wit
 
 - Node.js 18+ and npm
 - Supabase account
-- Stripe account (for payments)
 
 ### Installation
 
@@ -48,20 +44,13 @@ Edit `.env` with your actual values:
 ```env
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-VITE_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
 ```
 
 4. Set up Supabase:
    - Create a new Supabase project
    - Run the database migrations (they should auto-apply)
-   - Set up authentication if needed
 
-5. Set up Stripe:
-   - Create a Stripe account
-   - Get your publishable key from the Stripe dashboard
-   - Add it to your `.env` file
-
-6. Start the development server:
+5. Start the development server:
 ```bash
 npm run dev
 ```
@@ -72,19 +61,16 @@ npm run dev
 src/
 ├── components/          # Reusable UI components
 │   ├── admin/          # Admin dashboard components
-│   ├── Layout/         # Navigation, Footer
+│   ├── Layout/          # Navigation, Footer
 │   ├── Portfolio/      # Portfolio display components
 │   └── ui/             # Basic UI components
-├── contexts/           # React contexts (Auth)
 ├── lib/               # Utilities and configurations
 ├── pages/             # Page components
-│   ├── auth/          # Authentication pages
 │   └── admin/         # Admin pages
 └── styles/            # Global styles
 
 supabase/
-├── migrations/        # Database schema migrations
-└── functions/         # Supabase Edge functions
+└── migrations/        # Database schema migrations
 ```
 
 ## Key Features
@@ -95,24 +81,11 @@ supabase/
 - Image hover effects and carousels
 - Responsive grid layouts
 
-### User Authentication
-- Email/password sign up and sign in
-- User profile management
-- Password reset functionality
-- Protected routes for authenticated users
-- Responsive authentication forms
-
 ### Admin Dashboard
-- Secure authentication
+- Secure authentication for administrators
 - Category management (CRUD operations)
 - Clothing item management with image uploads
 - File upload to Supabase Storage
-
-### Stripe Integration
-- Multiple pricing tiers
-- One-time and subscription packages
-- Secure payment processing
-- Demo mode for development
 
 ### Responsive Design
 - Mobile-first approach
@@ -126,7 +99,6 @@ supabase/
 |----------|-------------|----------|
 | `VITE_SUPABASE_URL` | Your Supabase project URL | Yes |
 | `VITE_SUPABASE_ANON_KEY` | Your Supabase anonymous key | Yes |
-| `VITE_STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable key | Yes |
 
 ## Database Schema
 
@@ -134,24 +106,17 @@ The application uses the following main tables:
 - `categories` - Portfolio categories (men/women sections)
 - `clothing_items` - Individual clothing pieces
 - `clothing_images` - Multiple images per clothing item
-- `profiles` - User profile information
-- `stripe_customers` - Stripe customer mappings
-- `stripe_subscriptions` - Subscription tracking
-- `stripe_orders` - Order history
 
-## Authentication System
+## Admin Authentication
 
-The authentication system includes:
-- Sign up with email and password
-- Sign in with email and password
-- User profile management
-- Password reset functionality
-- Protected routes for authenticated users only
+The admin system includes:
+- Email/password authentication for administrators only
+- Protected admin dashboard
+- Secure management of portfolio content
 
-To set up authentication:
-1. Run the auth migration: `supabase/migrations/20250928100000_auth_tables.sql`
-2. Configure Supabase Auth settings in your dashboard
-3. Set up email templates for password reset emails
+To set up admin access:
+1. Run the setup script: `node setup-admin.js`
+2. Use the generated credentials to access `/admin`
 
 ## Deployment
 
@@ -163,8 +128,6 @@ npm run build
 2. Deploy to your preferred hosting platform (Vercel, Netlify, etc.)
 
 3. Set up environment variables in your hosting platform
-
-4. Configure Stripe webhooks if using real payments
 
 ## Development
 

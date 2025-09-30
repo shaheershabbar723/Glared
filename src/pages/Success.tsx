@@ -108,8 +108,8 @@ export function Success() {
             </p>
             <div className="text-sm text-gray-500 mt-2 space-y-1">
               <p>
-                <a href="tel:+121624492625" className="text-yellow-600 hover:text-yellow-700">
-                  +1 (216) 244-92625
+                                <a href="tel:+12162449262" className="text-yellow-600 hover:text-yellow-700">
+                                    +1 (216) 244-9262
                 </a>{' '}
                 (US Office)
               </p>

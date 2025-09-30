@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, CreditCard as Edit, Trash2, Image as ImageIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { Category, supabase } from '../../lib/supabase';
+import { Category, supabase, adminSupabase } from '../../lib/supabase';
 import { CategoryForm } from './CategoryForm';
 
 interface CategoryManagerProps {
@@ -12,6 +12,28 @@ interface CategoryManagerProps {
 export function CategoryManager({ categories, onDataChange }: CategoryManagerProps) {
   const [showForm, setShowForm] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [localCategories, setLocalCategories] = useState<Category[]>(categories);
+
+  // Load categories using admin client
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    try {
+      const { data, error } = await adminSupabase
+        .from('categories')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      
+      setLocalCategories(data || []);
+      onDataChange(); // Notify parent component
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
+  };
 
   const handleDelete = async (category: Category) => {
     if (!confirm(`Are you sure you want to delete "${category.name}"? This will also delete all clothing items in this category.`)) {
@@ -19,14 +41,14 @@ export function CategoryManager({ categories, onDataChange }: CategoryManagerPro
     }
 
     try {
-      const { error } = await supabase
+      const { error } = await adminSupabase
         .from('categories')
         .delete()
         .eq('id', category.id);
 
       if (error) throw error;
 
-      onDataChange();
+      loadCategories(); // Reload categories
     } catch (error) {
       console.error('Error deleting category:', error);
       alert('Error deleting category. Please try again.');
@@ -45,11 +67,11 @@ export function CategoryManager({ categories, onDataChange }: CategoryManagerPro
 
   const handleFormSubmit = () => {
     handleFormClose();
-    onDataChange();
+    loadCategories(); // Reload categories
   };
 
-  const menCategories = categories.filter(cat => cat.section === 'men');
-  const womenCategories = categories.filter(cat => cat.section === 'women');
+  const menCategories = localCategories.filter(cat => cat.section === 'men');
+  const womenCategories = localCategories.filter(cat => cat.section === 'women');
 
   return (
     <div className="space-y-8">

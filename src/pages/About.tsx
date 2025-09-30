@@ -93,63 +93,6 @@ export function About() {
           </div>
         </div>
       </section>
-
-      {/* Team Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
-            <p className="text-xl text-gray-600">The creative minds behind Glared</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-32 h-32 bg-gray-300 rounded-full mx-auto mb-4 overflow-hidden">
-                <img
-                  src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400"
-                  alt="Creative Director"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">Sarah Chen</h3>
-              <p className="text-yellow-600 mb-2">Creative Director</p>
-              <p className="text-gray-600 text-sm">
-                With over 15 years in luxury fashion, Sarah brings her visionary approach to every collection.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-32 h-32 bg-gray-300 rounded-full mx-auto mb-4 overflow-hidden">
-                <img
-                  src="https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=400"
-                  alt="Head Designer"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">Marcus Johnson</h3>
-              <p className="text-yellow-600 mb-2">Head Designer</p>
-              <p className="text-gray-600 text-sm">
-                Marcus's innovative designs blend classic tailoring with contemporary aesthetics.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-32 h-32 bg-gray-300 rounded-full mx-auto mb-4 overflow-hidden">
-                <img
-                  src="https://images.pexels.com/photos/3454298/pexels-photo-3454298.jpeg?auto=compress&cs=tinysrgb&w=400"
-                  alt="Quality Director"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">Elena Rodriguez</h3>
-              <p className="text-yellow-600 mb-2">Quality Director</p>
-              <p className="text-gray-600 text-sm">
-                Elena ensures every piece meets our exacting standards of quality and craftsmanship.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

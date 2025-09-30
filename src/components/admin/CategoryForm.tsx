@@ -3,7 +3,7 @@ import { X, Upload } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
-import { Category, supabase } from '../../lib/supabase';
+import { Category, supabase, adminSupabase } from '../../lib/supabase';
 
 interface CategoryFormProps {
   category?: Category | null;
@@ -37,13 +37,14 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
     const fileExt = file.name.split('.').pop();
     const fileName = `banner-${Date.now()}.${fileExt}`;
     
-    const { data, error } = await supabase.storage
+    // Use admin client to bypass RLS
+    const { data, error } = await adminSupabase.storage
       .from('portfolio-images')
       .upload(fileName, file);
 
     if (error) throw error;
 
-    const { data: { publicUrl } } = supabase.storage
+    const { data: { publicUrl } } = adminSupabase.storage
       .from('portfolio-images')
       .getPublicUrl(fileName);
 
@@ -69,16 +70,16 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
       };
 
       if (category) {
-        // Update existing category
-        const { error } = await supabase
+        // Update existing category using admin client
+        const { error } = await adminSupabase
           .from('categories')
           .update(categoryData)
           .eq('id', category.id);
 
         if (error) throw error;
       } else {
-        // Create new category
-        const { error } = await supabase
+        // Create new category using admin client
+        const { error } = await adminSupabase
           .from('categories')
           .insert([categoryData]);
 
@@ -86,9 +87,9 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
       }
 
       onSubmit();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving category:', error);
-      alert('Error saving category. Please try again.');
+      alert(`Error saving category: ${error.message || 'Please try again.'}`);
     } finally {
       setUploading(false);
     }
@@ -121,7 +122,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
           <Select
             label="Section"
             value={formData.section}
-            onChange={(e) => setFormData({ ...formData, section: e.target.value })}
+            onChange={(e) => setFormData({ ...formData, section: e.target.value as 'men' | 'women' })}
             options={[
               { value: 'men', label: "Men's Collection" },
               { value: 'women', label: "Women's Collection" },
