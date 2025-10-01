@@ -4,6 +4,8 @@ import { Button } from '../components/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import ScrollXCarouselDemo from '../components/ui/scroll-x-carousel-demo';
 import FeatureCarouselDemo from '../components/ui/feature-carousel-demo';
+import { supabase } from '../lib/supabase';
+import { CategoryCard } from '../components/Portfolio/CategoryCard';
 
 const testimonials = [
   {
@@ -54,6 +56,8 @@ export function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
   const [counters, setCounters] = useState({ images: 0, brands: 0, satisfaction: 0 });
+  const [featuredCategories, setFeaturedCategories] = useState<any[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
   
   const heroRef = useRef(null);
   const transformationRef = useRef(null);
@@ -61,6 +65,51 @@ export function Home() {
   const solutionRef = useRef(null);
   const processRef = useRef(null);
   const metricsRef = useRef(null);
+
+  // Load featured categories
+  useEffect(() => {
+    loadFeaturedCategories();
+  }, []);
+
+  const loadFeaturedCategories = async () => {
+    try {
+      // Load specific categories or the first 3 categories as featured
+      const { data, error } = await supabase
+        .from('categories')
+        .select('*')
+        .order('created_at', { ascending: true })
+        .limit(3);
+
+      if (error) throw error;
+      
+      setFeaturedCategories(data || []);
+    } catch (error) {
+      console.error('Error loading featured categories:', error);
+      // Fallback to static data if Supabase fails
+      setFeaturedCategories([
+        {
+          id: 'featured-1',
+          name: 'Summer Collection',
+          section: 'women',
+          banner_image: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/banner-1759218314736.png',
+        },
+        {
+          id: 'featured-2',
+          name: 'Business Formal',
+          section: 'men',
+          banner_image: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/banner-1758983386232.png',
+        },
+        {
+          id: 'featured-3',
+          name: 'Casual Wear',
+          section: 'women',
+          banner_image: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/banner-1759217814326.png',
+        }
+      ]);
+    } finally {
+      setLoadingCategories(false);
+    }
+  };
 
   // Auto-advance testimonials
   useEffect(() => {
@@ -168,12 +217,22 @@ export function Home() {
         <FeatureCarouselDemo />
       </section>
 
-      {/* Portfolio Carousel Section */}
-      <section className="py-16 bg-white">
+      {/* Featured Collections Section */}
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-[70vh]">
-            <ScrollXCarouselDemo />
-          </div>
+          {loadingCategories ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl shadow-lg h-80 animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredCategories.map((category) => (
+                <CategoryCard key={category.id} category={category} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
