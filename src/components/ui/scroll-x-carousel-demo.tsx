@@ -63,19 +63,19 @@ export default function ScrollXCarouselDemo() {
           id: 'slide-1',
           name: 'Polo',
           section: 'men',
-          banner_image: '/media/Generated Image September 20, 2025 - 1_03AM.png',
+          banner_image: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/clothing-1758983566628-ocl22hv0l.png',
         },
         {
           id: 'slide-2',
           name: 'Dress',
           section: 'women',
-          banner_image: '/media/Generated Image September 20, 2025 - 1_22AM.png',
+          banner_image: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/clothing-1759220053368-k8aiyp7rf2p.png',
         },
         {
           id: 'slide-3',
           name: 'Trouser',
           section: 'men',
-          banner_image: '/media/Generated Image September 22, 2025 - 2_21AM (1).png',
+          banner_image: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/banner-1759218314736.png',
         }
       ]);
     } finally {
@@ -106,7 +106,7 @@ export default function ScrollXCarouselDemo() {
               <CardHoverRevealMain>
                 <img
                   alt={category.name}
-                  src={category.banner_image || `/media/Generated Image September 20, 2025 - 1_03AM.png`}
+                  src={category.banner_image || `https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/clothing-1758983566628-ocl22hv0l.png`}
                   className="size-full aspect-square object-cover"
                 />
               </CardHoverRevealMain>

@@ -4,27 +4,27 @@ import { HeroSection } from './feature-carousel';
 const FeatureCarouselDemo: React.FC = () => {
   const images = [
     {
-      src: '/media/feature-carousal/Generated Image September 22, 2025 - 12_14AM.png',
+      src: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/banner-1759218314736.png',
       alt: 'Professional fashion portrait',
     },
     {
-      src: '/media/feature-carousal/Generated Image September 22, 2025 - 12_22AM.png',
+      src: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/banner-1758983386232.png',
       alt: 'Elegant evening wear',
     },
     {
-      src: '/media/feature-carousal/Generated Image September 22, 2025 - 12_40AM.png',
+      src: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/banner-1759217814326.png',
       alt: 'Casual athleisure',
     },
     {
-      src: '/media/feature-carousal/Generated Image September 22, 2025 - 12_56AM.png',
+      src: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/banner-1759217920032.png',
       alt: 'Summer resort collection',
     },
     {
-      src: '/media/feature-carousal/Generated Image September 22, 2025 - 1_00AM.png',
+      src: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/banner-1759218132612.png',
       alt: 'Winter outerwear',
     },
     {
-      src: '/media/feature-carousal/Generated Image September 25, 2025 - 5_45AM.png',
+      src: 'https://davlauemodhnuevsaodx.supabase.co/storage/v1/object/public/portfolio-images/banner-1759218493056.png',
       alt: 'Luxury fashion accessories',
     },
   ];
