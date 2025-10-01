@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { Category, supabase } from '../lib/supabase';
 import { CategoryCard } from '../components/Portfolio/CategoryCard';
 import { ImageGallery } from '../components/ui/image-gallery';
+import { useNavigate } from 'react-router-dom';
 
 export function Portfolio() {
+  const navigate = useNavigate();
   const [menCategories, setMenCategories] = useState<Category[]>([]);
   const [womenCategories, setWomenCategories] = useState<Category[]>([]);
   const [allItems, setAllItems] = useState<Array<{ src: string; alt: string }>>([]);
@@ -94,7 +96,6 @@ export function Portfolio() {
           <div className="animate-pulse">
             <div className="h-16 bg-gray-200 rounded-lg w-1/2 mx-auto mb-8" />
             <div className="flex justify-center space-x-4 mb-16">
-              <div className="h-12 bg-gray-200 rounded-full w-32" />
               <div className="h-12 bg-gray-200 rounded-full w-32" />
               <div className="h-12 bg-gray-200 rounded-full w-32" />
             </div>

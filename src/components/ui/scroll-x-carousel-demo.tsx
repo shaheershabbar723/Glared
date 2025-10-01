@@ -92,8 +92,8 @@ export default function ScrollXCarouselDemo() {
   }
 
   return (
-    <ScrollXCarousel className="h-[150vh]">
-      <ScrollXCarouselContainer className="h-dvh place-content-center flex flex-col gap-8 py-12">
+    <ScrollXCarousel className="h-[100vh] md:h-[70vh]">
+      <ScrollXCarouselContainer className="h-dvh md:h-[70vh] place-content-center flex flex-col gap-8 py-12">
         <div className="pointer-events-none w-[12vw] h-[103%] absolute inset-[0_auto_0_0] z-10 bg-[linear-gradient(90deg,_var(--background)_35%,_transparent)]" />
         <div className="pointer-events-none bg-[linear-gradient(270deg,_var(--background)_35%,_transparent)] w-[15vw] h-[103%] absolute inset-[0_0_0_auto] z-10" />
 
@@ -101,7 +101,7 @@ export default function ScrollXCarouselDemo() {
           {categories.map((category) => (
             <CardHoverReveal
               key={category.id}
-              className="min-w-[70vw] md:min-w-[38vw] shadow-xl border xl:min-w-[30vw] rounded-xl"
+              className="min-w-[90vw] md:min-w-[38vw] shadow-xl border xl:min-w-[30vw] rounded-xl"
             >
               <CardHoverRevealMain>
                 <img

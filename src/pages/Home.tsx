@@ -4,6 +4,8 @@ import { Button } from '../components/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import ScrollXCarouselDemo from '../components/ui/scroll-x-carousel-demo';
 import FeatureCarouselDemo from '../components/ui/feature-carousel-demo';
+import { CategoryCard } from '../components/Portfolio/CategoryCard';
+import { supabase } from '../lib/supabase';
 
 const testimonials = [
   {
@@ -54,6 +56,7 @@ export function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
   const [counters, setCounters] = useState({ images: 0, brands: 0, satisfaction: 0 });
+  const [featuredCategories, setFeaturedCategories] = useState<any[]>([]);
   
   const heroRef = useRef(null);
   const transformationRef = useRef(null);
@@ -61,6 +64,48 @@ export function Home() {
   const solutionRef = useRef(null);
   const processRef = useRef(null);
   const metricsRef = useRef(null);
+
+  // Load featured categories
+  useEffect(() => {
+    loadFeaturedCategories();
+  }, []);
+
+  const loadFeaturedCategories = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('*')
+        .order('created_at', { ascending: true })
+        .limit(3);
+
+      if (error) throw error;
+      
+      setFeaturedCategories(data || []);
+    } catch (error) {
+      console.error('Error loading featured categories:', error);
+      // Fallback to static data
+      setFeaturedCategories([
+        {
+          id: 'slide-1',
+          name: 'Polo',
+          section: 'men',
+          banner_image: '/media/Generated Image September 20, 2025 - 1_03AM.png',
+        },
+        {
+          id: 'slide-2',
+          name: 'Dress',
+          section: 'women',
+          banner_image: '/media/Generated Image September 20, 2025 - 1_22AM.png',
+        },
+        {
+          id: 'slide-3',
+          name: 'Trouser',
+          section: 'men',
+          banner_image: '/media/Generated Image September 22, 2025 - 2_21AM (1).png',
+        }
+      ]);
+    }
+  };
 
   // Auto-advance testimonials
   useEffect(() => {
@@ -171,8 +216,40 @@ export function Home() {
       {/* Portfolio Carousel Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-[70vh]">
-            <ScrollXCarouselDemo />
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
+              Featured Collections
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore our handpicked collections that showcase the best of AI-generated fashion photography
+            </p>
+          </div>
+          
+          <div className="h-auto md:h-[70vh]">
+            {featuredCategories.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {featuredCategories.map((category) => (
+                  <div key={category.id} className="h-full">
+                    <CategoryCard category={category} />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="h-64 flex items-center justify-center">
+                <div className="animate-pulse text-gray-500">Loading featured collections...</div>
+              </div>
+            )}
+          </div>
+          
+          <div className="text-center mt-12">
+            <Button
+              size="lg"
+              onClick={() => navigate('/portfolio')}
+              className="group bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-white font-medium px-8 py-3 text-lg"
+            >
+              View All Collections
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </Button>
           </div>
         </div>
       </section>

@@ -28,9 +28,31 @@ const CardHoverReveal = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const [isHovered, setIsHovered] = React.useState<boolean>(false)
+  const [isTouchDevice, setIsTouchDevice] = React.useState<boolean>(false)
 
-  const handleMouseEnter = () => setIsHovered(true)
-  const handleMouseLeave = () => setIsHovered(false)
+  // Detect if device is touch-enabled
+  React.useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
+  }, [])
+
+  const handleMouseEnter = () => {
+    if (!isTouchDevice) {
+      setIsHovered(true)
+    }
+  }
+  
+  const handleMouseLeave = () => {
+    if (!isTouchDevice) {
+      setIsHovered(false)
+    }
+  }
+  
+  // For touch devices, toggle on click
+  const handleClick = () => {
+    if (isTouchDevice) {
+      setIsHovered(!isHovered)
+    }
+  }
 
   return (
     <CardHoverRevealContext.Provider
@@ -44,6 +66,7 @@ const CardHoverReveal = React.forwardRef<
         className={cn("relative overflow-hidden", className)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
         {...props}
       />
     </CardHoverRevealContext.Provider>
@@ -85,7 +108,7 @@ const CardHoverRevealContent = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "absolute inset-[auto_1.5rem_1.5rem] p-6 backdrop-blur-lg transition-all duration-500 ease-in-out",
+        "absolute inset-x-4 bottom-4 md:inset-[auto_1.5rem_1.5rem] p-4 md:p-6 backdrop-blur-lg transition-all duration-500 ease-in-out rounded-xl md:rounded-2xl",
         className
       )}
       style={
