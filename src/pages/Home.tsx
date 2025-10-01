@@ -235,8 +235,10 @@ export function Home() {
                 ))}
               </div>
             ) : (
-              <div className="h-64 flex items-center justify-center">
-                <div className="animate-pulse text-gray-500">Loading featured collections...</div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="bg-gray-200 rounded-2xl h-80 animate-pulse" />
+                ))}
               </div>
             )}
           </div>

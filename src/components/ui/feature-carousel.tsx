@@ -14,6 +14,16 @@ interface HeroProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> 
 export const HeroSection = React.forwardRef<HTMLDivElement, HeroProps>(
   ({ title, subtitle, images, className, ...props }, ref) => {
     const [currentIndex, setCurrentIndex] = React.useState(Math.floor(images.length / 2));
+    const [loaded, setLoaded] = React.useState(false);
+
+    React.useEffect(() => {
+      // Trigger fade-in animation after component mounts
+      const timer = setTimeout(() => {
+        setLoaded(true);
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }, []);
 
     const handleNext = React.useCallback(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -46,7 +56,7 @@ export const HeroSection = React.forwardRef<HTMLDivElement, HeroProps>(
         </div>
 
         {/* Content */}
-        <div className="z-10 flex w-full flex-col items-center text-center space-y-8 md:space-y-12">
+        <div className={`z-10 flex w-full flex-col items-center text-center space-y-8 md:space-y-12 transition-opacity duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           {/* Header Section */}
           <div className="space-y-4">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter max-w-4xl">
@@ -95,6 +105,8 @@ export const HeroSection = React.forwardRef<HTMLDivElement, HeroProps>(
                       src={image.src}
                       alt={image.alt}
                       className="object-cover w-full h-full rounded-2xl md:rounded-3xl border-2 border-foreground/10 shadow-2xl"
+                      loading={isCenter ? "eager" : "lazy"}
+                      decoding="async"
                     />
                   </div>
                 );

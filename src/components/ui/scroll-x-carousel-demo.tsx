@@ -12,10 +12,22 @@ import { supabase } from '../../lib/supabase';
 export default function ScrollXCarouselDemo() {
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     loadCategories();
   }, []);
+
+  useEffect(() => {
+    if (!loading && categories.length > 0) {
+      // Trigger fade-in animation after categories are loaded
+      const timer = setTimeout(() => {
+        setLoaded(true);
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [loading, categories]);
 
   const loadCategories = async () => {
     try {
@@ -86,7 +98,11 @@ export default function ScrollXCarouselDemo() {
   if (loading) {
     return (
       <div className="h-[70vh] flex items-center justify-center">
-        <div className="animate-pulse">Loading featured styles...</div>
+        <div className="animate-pulse flex space-x-4">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="bg-gray-200 rounded-xl w-64 h-80" />
+          ))}
+        </div>
       </div>
     );
   }
@@ -97,17 +113,20 @@ export default function ScrollXCarouselDemo() {
         <div className="pointer-events-none w-[12vw] h-[103%] absolute inset-[0_auto_0_0] z-10 bg-[linear-gradient(90deg,_var(--background)_35%,_transparent)]" />
         <div className="pointer-events-none bg-[linear-gradient(270deg,_var(--background)_35%,_transparent)] w-[15vw] h-[103%] absolute inset-[0_0_0_auto] z-10" />
 
-        <ScrollXCarouselWrap className="flex-4/5 flex space-x-8 [&>*:first-child]:ml-8">
-          {categories.map((category) => (
+        <ScrollXCarouselWrap className={`flex-4/5 flex space-x-8 [&>*:first-child]:ml-8 transition-opacity duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+          {categories.map((category, index) => (
             <CardHoverReveal
               key={category.id}
               className="min-w-[90vw] md:min-w-[38vw] shadow-xl border xl:min-w-[30vw] rounded-xl"
+              style={{ transitionDelay: `${index * 0.2}s` }}
             >
               <CardHoverRevealMain>
                 <img
                   alt={category.name}
                   src={category.banner_image || `/media/Generated Image September 20, 2025 - 1_03AM.png`}
                   className="size-full aspect-square object-cover"
+                  loading="eager"
+                  decoding="async"
                 />
               </CardHoverRevealMain>
               <CardHoverRevealContent className="space-y-4 rounded-2xl bg-[rgba(0,0,0,.5)] backdrop-blur-3xl p-4">
