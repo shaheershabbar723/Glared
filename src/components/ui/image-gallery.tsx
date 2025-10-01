@@ -1,10 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export function ImageGallery({ images }: { images: { src: string; alt: string }[] }) {
   // Limit the number of images displayed initially for better performance
   const [displayCount, setDisplayCount] = React.useState(30);
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const displayedImages = images.slice(0, displayCount);
   
   // Function to load more images
@@ -12,11 +13,16 @@ export function ImageGallery({ images }: { images: { src: string; alt: string }[
     setDisplayCount(prev => Math.min(prev + 30, images.length));
   };
 
+  // Handle image load completion for fade-in effect
+  const handleImageLoad = (src: string) => {
+    setLoadedImages(prev => new Set(prev).add(src));
+  };
+
   return (
     <div className="w-full">
       <style>{`
         .masonry-grid {
-          column-count: 3;
+          column-count: 4;
           column-gap: 1rem;
         }
         
@@ -24,6 +30,14 @@ export function ImageGallery({ images }: { images: { src: string; alt: string }[
           display: block;
           break-inside: avoid;
           margin-bottom: 1rem;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .masonry-grid-item.loaded {
+          opacity: 1;
+          transform: translateY(0);
         }
         
         .masonry-grid-item img {
@@ -67,13 +81,15 @@ export function ImageGallery({ images }: { images: { src: string; alt: string }[
         {displayedImages.map((image, index) => (
           <div 
             key={`${image.src}-${index}`} 
-            className="masonry-grid-item"
+            className={`masonry-grid-item ${loadedImages.has(image.src) ? 'loaded' : ''}`}
           >
             <img
               src={image.src}
               alt={image.alt}
-              loading={index < 12 ? "eager" : "lazy"}
+              loading={index < 15 ? "eager" : "lazy"}
               decoding="async"
+              onLoad={() => handleImageLoad(image.src)}
+              onError={() => handleImageLoad(image.src)} // Still mark as loaded even if there's an error
             />
           </div>
         ))}

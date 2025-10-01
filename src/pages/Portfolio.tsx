@@ -9,6 +9,9 @@ export function Portfolio() {
   const [allItems, setAllItems] = useState<Array<{ src: string; alt: string }>>([]);
   const [activeSection, setActiveSection] = useState<'men' | 'women' | 'all'>('all');
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const ITEMS_PER_PAGE = 50; // Limit initial fetch
 
   useEffect(() => {
     loadCategories();
@@ -36,55 +39,78 @@ export function Portfolio() {
     }
   };
 
-  const loadAllItems = async () => {
+  const loadAllItems = async (pageNum = 1) => {
     try {
-      // Load all clothing items
+      // Load clothing items with pagination
+      const from = (pageNum - 1) * ITEMS_PER_PAGE;
+      const to = from + ITEMS_PER_PAGE - 1;
+      
       const { data: itemsData, error: itemsError } = await supabase
         .from('clothing_items')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .range(from, to);
 
       if (itemsError) throw itemsError;
 
-      // Load images for all items
+      // Check if we have more items
+      setHasMore(itemsData?.length === ITEMS_PER_PAGE);
+
+      // For the first page, we replace the data, for subsequent pages we append
+      const currentItems = pageNum === 1 ? [] : [...allItems];
+      
+      // Load images for current page items only
       if (itemsData && itemsData.length > 0) {
+        // Limit the number of images per item for better performance
         const { data: imagesData, error: imagesError } = await supabase
           .from('clothing_images')
           .select('*')
           .in('clothing_item_id', itemsData.map(item => item.id))
-          .order('display_order', { ascending: true });
+          .order('display_order', { ascending: true })
+          .limit(itemsData.length * 3); // Limit to 3 images per item
 
         if (imagesError) throw imagesError;
 
-        // Create an array with all images (multiple images per item)
-        const allImages: Array<{ src: string; alt: string }> = [];
+        // Create an array with images (limit to 1-2 images per item for performance)
+        const pageImages: Array<{ src: string; alt: string }> = [];
         
         itemsData.forEach(item => {
           // Add thumbnail image if available
           if (item.thumbnail_image) {
-            allImages.push({
+            pageImages.push({
               src: item.thumbnail_image,
               alt: `${item.name} - Thumbnail`
             });
           }
           
-          // Add all additional images for this item
+          // Add only first 2 additional images for this item to limit load
           const itemImages = imagesData?.filter(img => img.clothing_item_id === item.id) || [];
-          itemImages.forEach(image => {
-            allImages.push({
+          const limitedImages = itemImages.slice(0, 2); // Limit to 2 images per item
+          limitedImages.forEach(image => {
+            pageImages.push({
               src: image.image_url,
               alt: `${item.name} - Image ${image.display_order}`
             });
           });
         });
 
-        setAllItems(allImages);
+        // Update all items state
+        const updatedItems = [...currentItems, ...pageImages];
+        setAllItems(updatedItems);
       }
     } catch (error) {
       console.error('Error loading all items:', error);
     } finally {
-      setLoading(false);
+      if (page === 1) {
+        setLoading(false);
+      }
     }
+  };
+
+  const loadMoreItems = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    loadAllItems(nextPage);
   };
 
   if (loading) {
@@ -164,6 +190,16 @@ export function Portfolio() {
         {activeSection === 'all' ? (
           <div className="w-full">
             <ImageGallery images={allItems} />
+            {hasMore && (
+              <div className="text-center mt-8">
+                <button
+                  onClick={loadMoreItems}
+                  className="px-6 py-3 bg-gray-800 text-white rounded-full hover:bg-gray-700 transition-colors duration-300"
+                >
+                  Load More Images
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           /* Categories Grid */
