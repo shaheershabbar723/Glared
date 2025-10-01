@@ -42,11 +42,6 @@ export function ScrollXCarousel({
   const carouselX = useMotionValue(0);
   const springX = useSpring(carouselX, { stiffness: 300, damping: 30 });
   
-  // Touch handling for mobile
-  const touchStartX = React.useRef(0);
-  const touchStartY = React.useRef(0);
-  const isScrolling = React.useRef(false);
-  
   // Capture wheel events
   React.useEffect(() => {
     const element = carouselRef.current;
@@ -64,52 +59,11 @@ export function ScrollXCarousel({
       }
     };
     
-    // Touch events for mobile
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartX.current = e.touches[0].clientX;
-      touchStartY.current = e.touches[0].clientY;
-      isScrolling.current = false;
-    };
-    
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!touchStartX.current || !touchStartY.current) return;
-      
-      const touchX = e.touches[0].clientX;
-      const touchY = e.touches[0].clientY;
-      
-      const deltaX = touchX - touchStartX.current;
-      const deltaY = touchY - touchStartY.current;
-      
-      // Determine if horizontal or vertical scrolling
-      if (!isScrolling.current) {
-        isScrolling.current = Math.abs(deltaX) > Math.abs(deltaY);
-      }
-      
-      if (isScrolling.current) {
-        e.preventDefault();
-        const currentX = carouselX.get();
-        const newX = Math.max(-1500, Math.min(0, currentX + deltaX));
-        carouselX.set(newX);
-      }
-    };
-    
-    const handleTouchEnd = () => {
-      touchStartX.current = 0;
-      touchStartY.current = 0;
-      isScrolling.current = false;
-    };
-    
     // Use passive: false to allow preventDefault
     element.addEventListener('wheel', handleWheel, { passive: false });
-    element.addEventListener('touchstart', handleTouchStart, { passive: true });
-    element.addEventListener('touchmove', handleTouchMove, { passive: false });
-    element.addEventListener('touchend', handleTouchEnd, { passive: true });
     
     return () => {
       element.removeEventListener('wheel', handleWheel);
-      element.removeEventListener('touchstart', handleTouchStart);
-      element.removeEventListener('touchmove', handleTouchMove);
-      element.removeEventListener('touchend', handleTouchEnd);
     };
   }, [carouselX]);
 

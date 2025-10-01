@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { ClothingItem, ClothingImage } from '../../lib/supabase';
 
 interface ClothingItemCardProps {
@@ -10,19 +10,25 @@ interface ClothingItemCardProps {
 export function ClothingItemCard({ item, images, onClick }: ClothingItemCardProps) {
   const [currentImage, setCurrentImage] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const allImages = [
     { image_url: item.thumbnail_image, display_order: 0 },
     ...images.sort((a, b) => a.display_order - b.display_order)
-  ].filter(img => img.image_url) as { image_url: string; display_order: number }[];
+  ].filter(img => img.image_url);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
     if (allImages.length > 1) {
-      intervalRef.current = setInterval(() => {
+      const interval = setInterval(() => {
         setCurrentImage((prev) => (prev + 1) % allImages.length);
       }, 800);
+      
+      // Store interval ID to clear on mouse leave
+      setCurrentImage((prev) => {
+        // @ts-ignore
+        setCurrentImage.intervalId = interval;
+        return prev;
+      });
     }
   };
 
@@ -30,9 +36,10 @@ export function ClothingItemCard({ item, images, onClick }: ClothingItemCardProp
     setIsHovered(false);
     setCurrentImage(0);
     
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
+    // @ts-ignore
+    if (setCurrentImage.intervalId) {
+      // @ts-ignore
+      clearInterval(setCurrentImage.intervalId);
     }
   };
 
@@ -53,7 +60,7 @@ export function ClothingItemCard({ item, images, onClick }: ClothingItemCardProp
     >
       <div className="relative overflow-hidden rounded-xl bg-gray-100 aspect-[3/4] mb-4 shadow-lg group-hover:shadow-2xl transition-all duration-300">
         <img
-          src={allImages[currentImage]?.image_url || item.thumbnail_image || ''}
+          src={allImages[currentImage]?.image_url || item.thumbnail_image}
           alt={item.name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />

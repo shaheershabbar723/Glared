@@ -14,16 +14,6 @@ interface HeroProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> 
 export const HeroSection = React.forwardRef<HTMLDivElement, HeroProps>(
   ({ title, subtitle, images, className, ...props }, ref) => {
     const [currentIndex, setCurrentIndex] = React.useState(Math.floor(images.length / 2));
-    const [loaded, setLoaded] = React.useState(false);
-
-    React.useEffect(() => {
-      // Trigger fade-in animation after component mounts
-      const timer = setTimeout(() => {
-        setLoaded(true);
-      }, 100);
-      
-      return () => clearTimeout(timer);
-    }, []);
 
     const handleNext = React.useCallback(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -56,19 +46,19 @@ export const HeroSection = React.forwardRef<HTMLDivElement, HeroProps>(
         </div>
 
         {/* Content */}
-        <div className={`z-10 flex w-full flex-col items-center text-center space-y-8 md:space-y-12 transition-opacity duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="z-10 flex w-full flex-col items-center text-center space-y-8 md:space-y-12">
           {/* Header Section */}
           <div className="space-y-4">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter max-w-4xl">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter max-w-4xl">
               {title}
             </h1>
-            <p className="max-w-2xl mx-auto text-muted-foreground text-base sm:text-lg md:text-xl">
+            <p className="max-w-2xl mx-auto text-muted-foreground md:text-xl">
               {subtitle}
             </p>
           </div>
 
           {/* Main Showcase Section */}
-          <div className="relative w-full h-[300px] md:h-[350px] lg:h-[450px] flex items-center justify-center">
+          <div className="relative w-full h-[350px] md:h-[450px] flex items-center justify-center">
             {/* Carousel Wrapper */}
             <div className="relative w-full h-full flex items-center justify-center [perspective:1000px]">
               {images.map((image, index) => {
@@ -86,12 +76,12 @@ export const HeroSection = React.forwardRef<HTMLDivElement, HeroProps>(
                   <div
                     key={index}
                     className={cn(
-                      'absolute w-40 h-80 md:w-48 md:h-96 lg:w-64 lg:h-[450px] transition-all duration-500 ease-in-out',
+                      'absolute w-48 h-96 md:w-64 md:h-[450px] transition-all duration-500 ease-in-out',
                       'flex items-center justify-center'
                     )}
                     style={{
                       transform: `
-                        translateX(${(pos) * 40}%) 
+                        translateX(${(pos) * 45}%) 
                         scale(${isCenter ? 1 : isAdjacent ? 0.85 : 0.7})
                         rotateY(${(pos) * -10}deg)
                       `,
@@ -104,9 +94,7 @@ export const HeroSection = React.forwardRef<HTMLDivElement, HeroProps>(
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="object-cover w-full h-full rounded-2xl md:rounded-3xl border-2 border-foreground/10 shadow-2xl"
-                      loading={isCenter ? "eager" : "lazy"}
-                      decoding="async"
+                      className="object-cover w-full h-full rounded-3xl border-2 border-foreground/10 shadow-2xl"
                     />
                   </div>
                 );
@@ -117,18 +105,18 @@ export const HeroSection = React.forwardRef<HTMLDivElement, HeroProps>(
             <Button
               variant="outline"
               size="icon"
-              className="absolute left-2 sm:left-8 top-1/2 -translate-y-1/2 rounded-full h-8 w-8 md:h-10 md:w-10 z-20 bg-background/50 backdrop-blur-sm"
+              className="absolute left-2 sm:left-8 top-1/2 -translate-y-1/2 rounded-full h-10 w-10 z-20 bg-background/50 backdrop-blur-sm"
               onClick={handlePrev}
             >
-              <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" />
+              <ChevronLeft className="h-5 w-5" />
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="absolute right-2 sm:right-8 top-1/2 -translate-y-1/2 rounded-full h-8 w-8 md:h-10 md:w-10 z-20 bg-background/50 backdrop-blur-sm"
+              className="absolute right-2 sm:right-8 top-1/2 -translate-y-1/2 rounded-full h-10 w-10 z-20 bg-background/50 backdrop-blur-sm"
               onClick={handleNext}
             >
-              <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
+              <ChevronRight className="h-5 w-5" />
             </Button>
           </div>
         </div>

@@ -2,34 +2,18 @@ import { useState, useEffect } from 'react';
 import { Category, supabase } from '../lib/supabase';
 import { CategoryCard } from '../components/Portfolio/CategoryCard';
 import { ImageGallery } from '../components/ui/image-gallery';
-import { useNavigate } from 'react-router-dom';
 
 export function Portfolio() {
-  const navigate = useNavigate();
   const [menCategories, setMenCategories] = useState<Category[]>([]);
   const [womenCategories, setWomenCategories] = useState<Category[]>([]);
   const [allItems, setAllItems] = useState<Array<{ src: string; alt: string }>>([]);
   const [activeSection, setActiveSection] = useState<'men' | 'women' | 'all'>('all');
   const [loading, setLoading] = useState(true);
-  const [imageGalleryLoading, setImageGalleryLoading] = useState(false);
 
   useEffect(() => {
     loadCategories();
     loadAllItems();
   }, []);
-
-  // Simulate loading delay for better UX
-  useEffect(() => {
-    if (activeSection === 'all') {
-      setImageGalleryLoading(true);
-      const timer = setTimeout(() => {
-        setImageGalleryLoading(false);
-      }, 300);
-      return () => clearTimeout(timer);
-    } else {
-      setImageGalleryLoading(false);
-    }
-  }, [activeSection]);
 
   const loadCategories = async () => {
     try {
@@ -54,23 +38,21 @@ export function Portfolio() {
 
   const loadAllItems = async () => {
     try {
-      // Load all clothing items (limit to 100 for performance)
+      // Load all clothing items
       const { data: itemsData, error: itemsError } = await supabase
         .from('clothing_items')
         .select('*')
-        .order('created_at', { ascending: false })
-        .limit(100); // Limit to 100 items for better performance
+        .order('created_at', { ascending: false });
 
       if (itemsError) throw itemsError;
 
-      // Load images for all items (limit to 3 images per item)
+      // Load images for all items
       if (itemsData && itemsData.length > 0) {
         const { data: imagesData, error: imagesError } = await supabase
           .from('clothing_images')
           .select('*')
           .in('clothing_item_id', itemsData.map(item => item.id))
-          .order('display_order', { ascending: true })
-          .limit(itemsData.length * 3); // Limit to 3 images per item
+          .order('display_order', { ascending: true });
 
         if (imagesError) throw imagesError;
 
@@ -86,9 +68,9 @@ export function Portfolio() {
             });
           }
           
-          // Add all additional images for this item (limit to 2)
+          // Add all additional images for this item
           const itemImages = imagesData?.filter(img => img.clothing_item_id === item.id) || [];
-          itemImages.slice(0, 2).forEach(image => {
+          itemImages.forEach(image => {
             allImages.push({
               src: image.image_url,
               alt: `${item.name} - Image ${image.display_order}`
@@ -179,45 +161,35 @@ export function Portfolio() {
         </div>
 
         {/* Content Display */}
-        <div className="transition-opacity duration-1000 opacity-100">
-          {activeSection === 'all' ? (
-            <div className="w-full">
-              {imageGalleryLoading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[...Array(9)].map((_, i) => (
-                    <div key={i} className="bg-gray-200 rounded-xl h-64 animate-pulse" />
-                  ))}
-                </div>
-              ) : (
-                <ImageGallery images={allItems} />
-              )}
-            </div>
-          ) : (
-            /* Categories Grid */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {activeCategories.length > 0 ? (
-                activeCategories.map((category) => (
-                  <CategoryCard key={category.id} category={category} />
-                ))
-              ) : (
-                <div className="col-span-full text-center py-20">
-                  <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md mx-auto">
-                    <div className="w-20 h-20 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <span className="text-3xl">✨</span>
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                      Coming Soon
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      We're working on adding amazing {activeSection === 'men' ? "men's" : "women's"} collections. 
-                      Stay tuned for something extraordinary!
-                    </p>
+        {activeSection === 'all' ? (
+          <div className="w-full">
+            <ImageGallery images={allItems} />
+          </div>
+        ) : (
+          /* Categories Grid */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {activeCategories.length > 0 ? (
+              activeCategories.map((category) => (
+                <CategoryCard key={category.id} category={category} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-20">
+                <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md mx-auto">
+                  <div className="w-20 h-20 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-3xl">✨</span>
                   </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                    Coming Soon
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    We're working on adding amazing {activeSection === 'men' ? "men's" : "women's"} collections. 
+                    Stay tuned for something extraordinary!
+                  </p>
                 </div>
-              )}
-            </div>
-          )}
-        </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

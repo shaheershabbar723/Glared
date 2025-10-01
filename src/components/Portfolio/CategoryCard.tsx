@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Category } from '../../lib/supabase';
@@ -9,16 +8,6 @@ interface CategoryCardProps {
 
 export function CategoryCard({ category }: CategoryCardProps) {
   const navigate = useNavigate();
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    // Trigger fade-in animation after component mounts
-    const timer = setTimeout(() => {
-      setLoaded(true);
-    }, 100);
-    
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleClick = () => {
     navigate(`/category/${category.id}`);
@@ -27,7 +16,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
   return (
     <div 
       onClick={handleClick}
-      className={`group cursor-pointer transform transition-all duration-500 hover:scale-105 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+      className="group cursor-pointer transform transition-all duration-500 hover:scale-105"
     >
       <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500">
         {/* Category Image */}
@@ -37,8 +26,6 @@ export function CategoryCard({ category }: CategoryCardProps) {
               src={category.banner_image}
               alt={category.name}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              loading="lazy"
-              decoding="async"
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
